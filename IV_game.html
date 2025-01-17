@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>IV Therapy Interactive Game</title>
+  <style>
+    /* Basic Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f3f4f6;
+    }
+    header {
+      background-color: #0078D7;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+    .opener {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f9f9f9;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .opener img {
+      max-width: 80%;
+      height: auto;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .opener h1 {
+      font-size: 2rem;
+      color: #333;
+    }
+    .opener p {
+      font-size: 1.2rem;
+      color: #555;
+      margin: 10px 0 20px;
+      line-height: 1.5;
+    }
+    .opener button {
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border: none;
+      background-color: #0078D7;
+      color: white;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+    .opener button:hover {
+      background-color: #005bb5;
+    }
+    main {
+      padding: 20px;
+      display: none; /* Initially hide the main content */
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .question {
+      display: none; /* Hide all questions initially */
+      margin-bottom: 20px;
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .question.active {
+      display: block; /* Show only the active question */
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #0078D7;
+      color: white;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #005bb5;
+    }
+    .feedback {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    .feedback.correct {
+      color: green;
+    }
+    .feedback.incorrect {
+      color: red;
+    }
+    #scoreBoard {
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+      color: #333;
+      text-align: center;
+    }
+    #timer {
+      font-size: 1.2rem;
+      color: #FF0000;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #finalMessage {
+      display: none;
+      text-align: center;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Opener Screen -->
+<div class="opener" id="opener">
+  <img src="/home/psychoticdro/Desktop/iv_therapy/prisma-health-2-1.jpg" alt="IV Therapy Kahoot Challenge">
+  <h1>IV Therapy Kahoot Challenge</h1>
+  <p>
+    Welcome to the IV Therapy Challenge! Today, we’ll test your knowledge about IV therapy essentials—an important part of patient care.
+    From identifying IV sites to understanding central vs. peripheral lines. Pay attention, think critically, and have fun!
+  </p>
+  <button onclick="startGame()">Start Game</button>
+</div>
+
+<!-- Game Section -->
+<header>IV Therapy Interactive Game</header>
+<main id="main-content">
+  <div id="scoreBoard">
+    <strong>Score:</strong> <span id="score">0</span>
+  </div>
+  <div id="timer">Time Left: 60s</div>
+
+  <!-- Question 1-->
+  <div class="question active" id="q1">
+    <h2>Question 1: What are common sites to avoid when starting an IV? (Select all that apply)</h2>
+    <img src="/home/psychoticdro/Desktop/iv_therapy/iv_placement.jpeg" 
+        alt="IV Placement Guide" style="max-width: 100%; height: auto; margin-bottom: 15px;">
+        
+    <form id="q1-form">
+      <div class="options">
+        <label>
+          <input type="checkbox" name="answer" value="correct1">
+          Extremities with an AV Fistula, graft, or known clot
+        </label><br/>
+        <label>
+          <input type="checkbox" name="answer" value="correct2">
+          Extremity affected by stroke, radiation therapy, or lymphedema
+        </label><br/>
+        <label>
+          <input type="checkbox" name="answer" value="correct3">
+          Areas of flexion, lower extremity, or open wounds
+        </label><br/>
+        <label>
+          <input type="checkbox" name="answer" value="incorrect">
+          A vein in the non-dominant arm
+        </label><br/>
+        <label>
+          <input type="checkbox" name="answer" value="incorrect">
+          Veins on the dorsal and ventral surfaces of the upper extremitites.
+        </label><br/>
+        <label>
+          <input type="checkbox" name="answer" value="correct4">
+          Veins in an upper extremity on the side of breast surgery
+        </label>
+      </div>
+      <!-- Make sure we pass the correct parameters to checkAnswers() -->
+      <button type="button" onclick="checkAnswers('q1','q2')">Submit</button>
+    </form>
+    <div id="feedback1" class="feedback"></div>
+  </div>
+
+  <!-- Question 2 -->
+  <div class="question" id="q2">
+    <h2>Question 2: What is the appropriate catheter gauge for rapid fluid replacement?</h2>
+    <div class="options">
+      <!-- handleClick(currentId, nextId, isCorrect) -->
+      <button onclick="handleClick('q2','q3', true)">16-20</button>
+      <button onclick="handleClick('q2','q3', false)">20-24</button>
+      <button onclick="handleClick('q2','q3', false)">24-28</button>
+    </div>
+    <div id="feedback2" class="feedback"></div>
+  </div>
+  
+<!-- Question 3 -->
+<div class="question" id="q3">
+  <h2>Choose the correct sites to start a peripheral IV</h2>
+
+  <!-- 
+    We set the width and height to be about 3 times larger than before. 
+    This ensures the browser displays a larger image. 
+    'max-width: 100%' ensures it shrinks if the screen is smaller than 1800px wide (so it stays responsive). 
+  -->
+  <img 
+    src="/home/psychoticdro/Desktop/iv_therapy/periphal.jpeg" 
+    alt="IV Diagram" 
+    usemap="#iv-map" 
+    width="1800" 
+    height="1200"
+    style="display:block; max-width:100%; height:auto; margin: 0 auto;"
+  />
+
+  <!-- 
+    Updated coords: the original example used (150,200,30) -> scaled by 3 -> (450,600,90).
+    If you have more hotspots, make sure to multiply X, Y, and the radius by 3 consistently.
+  -->
+  <map name="iv-map">
+    <area 
+      shape="circle" 
+      coords="150,200,90" 
+      onclick="showFeedback(true, 'q3', 'finalMessage')" 
+      alt="Correct Vein"
+    />
+    <area 
+      shape="circle" 
+      coords="900,1200,90" 
+      onclick="showFeedback(false, 'q3', 'finalMessage')" 
+      alt="Wrong Vein"
+    />
+  </map>
+
+  <div id="feedback3" class="feedback"></div>
+</div>
+
+  <!-- Final Message -->
+  <div id="finalMessage">
+    <h2>Congratulations!</h2>
+    <p>Your final score is: <strong><span id="finalScore"></span></strong></p>
+  </div>
+</main>
+
+<script>
+  let score = 0;
+  let timeLeft = 60;
+  let timerId;
+
+  // Start the game: hide the opener, show the main content, start the timer for Q1.
+  function startGame() {
+    document.getElementById("opener").style.display = "none"; 
+    document.getElementById("main-content").style.display = "block"; 
+    startTimer("q1", "q2"); 
+  }
+
+  // Start or reset the timer for the current question
+  function startTimer(currentId, nextId) {
+    const timerElement = document.getElementById("timer");
+    timeLeft = 60; // Reset time to 60 every time
+    clearInterval(timerId); // Clear any previous timer
+
+    timerId = setInterval(() => {
+      timeLeft--;
+      timerElement.textContent = `Time Left: ${timeLeft}s`;
+      if (timeLeft <= 0) {
+        clearInterval(timerId);
+        moveToNextQuestion(currentId, nextId);
+      }
+    }, 1000);
+  }
+
+  // Move to the next question (and start timer if not final)
+  function moveToNextQuestion(currentId, nextId) {
+    // Hide current question
+    document.getElementById(currentId).classList.remove("active");
+    
+    // Show next question if it exists
+    const nextQuestion = document.getElementById(nextId);
+    if (nextQuestion) {
+      nextQuestion.classList.add("active");
+      // Start timer for the next question if it's not the Final Message
+      if (nextId !== "finalMessage") {
+        // Decide what the next question is after this one
+        let upcomingNext;
+        // If Q2 => next is Q3
+        if (nextId === "q2") {
+          upcomingNext = "q3";
+        } 
+        // If Q3 => next is finalMessage
+        else if (nextId === "q3") {
+          upcomingNext = "finalMessage";
+        }
+        startTimer(nextId, upcomingNext);
+      } else {
+        // Next is final message, so show score
+        document.getElementById("finalScore").textContent = score;
+        clearInterval(timerId);
+      }
+    }
+  }
+
+  // Check answers for Question 1 (multi-select)
+  function checkAnswers(currentId, nextId) {
+    // Which checkboxes were selected?
+    const selected = document.querySelectorAll(`#${currentId} input[name="answer"]:checked`);
+    // Add the missing correct4
+    const correctAnswers = ["correct1", "correct2", "correct3", "correct4"];
+    const selectedValues = Array.from(selected).map(input => input.value);
+    const feedback = document.getElementById(`feedback${currentId.slice(-1)}`);
+
+    // Check if user selected all correct answers, and no incorrect
+    const isCorrect = 
+      correctAnswers.every(answer => selectedValues.includes(answer)) &&
+      !selectedValues.includes("incorrect") &&
+      selectedValues.length === correctAnswers.length;
+
+    if (isCorrect) {
+      feedback.textContent = "Correct! Great job!";
+      feedback.className = "feedback correct";
+      score += 10;
+    } else {
+      feedback.textContent = "Oops! Some of your selections are incorrect.";
+      feedback.className = "feedback incorrect";
+      score -= 5;
+    }
+    document.getElementById("score").textContent = score;
+
+    // Wait a second, then move on
+    setTimeout(() => moveToNextQuestion(currentId, nextId), 1000);
+  }
+
+  // Check answers for single-click questions (Question 2)
+  function handleClick(currentId, nextId, isCorrect) {
+    const feedback = document.getElementById(`feedback${currentId.slice(-1)}`);
+    if (isCorrect) {
+      feedback.textContent = "Correct! Great job!";
+      feedback.className = "feedback correct";
+      score += 10;
+    } else {
+      feedback.textContent = "Wrong answer!";
+      feedback.className = "feedback incorrect";
+      score -= 5;
+    }
+    document.getElementById("score").textContent = score;
+
+    setTimeout(() => moveToNextQuestion(currentId, nextId), 1000);
+  }
+
+  // Show feedback for Question 3 (image map clicks)
+  function showFeedback(isCorrect, currentId, nextId) {
+    const feedback = document.getElementById(`feedback${currentId.slice(-1)}`);
+    if (isCorrect) {
+      feedback.textContent = "Correct! Great job!";
+      feedback.className = "feedback correct";
+      score += 10;
+    } else {
+      feedback.textContent = "Wrong area!";
+      feedback.className = "feedback incorrect";
+      score -= 5;
+    }
+    document.getElementById("score").textContent = score;
+
+    setTimeout(() => moveToNextQuestion(currentId, nextId), 1000);
+  }
+</script>
+</body>
+</html>
